@@ -9,7 +9,7 @@ words = {"concert": "концерт",
          "lection": "лекция",
          "theatre": "театр",
          "stand-up": "стендап",
-         "сlasses": "мастер-клас"
+         "classes": "мастер-класс"
          }
 bot = telegram.Bot(TOKEN)
 
@@ -57,8 +57,10 @@ def help_button(chat_id, text):
         [InlineKeyboardButton("Мастер-класс 🎨", callback_data="classes")]
 
     ])
-    bot.send_message(chat_id=chat_id, text=text, reply_markup=keyboard, parse_mode='HTML')
+    bot.send_message(chat_id=chat_id, text=text, reply_markup=keyboard, parse_mode='HTML',
+                     disable_web_page_preview=True, )
 
 
 def no_search_result(chat_id):
     bot.sendSticker(chat_id, 'CAADAgADzlsAAmOLRgyykJdaDfyaHwI')
+    help_button(id, 'Не умею распознавать слова! Попробуй отправить локацию или выбрать категорию.👇🏻')

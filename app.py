@@ -40,8 +40,8 @@ def index():
                 print('OK')
         except (TimedOut, NetworkError, RetryAfter) as e:
             print(e)
-        # except Exception as e:
-        #    # print(e)
+        except Exception as e:
+            print(e)
 
         return jsonify(r)
     return 'Bot bot bot ohoho!'

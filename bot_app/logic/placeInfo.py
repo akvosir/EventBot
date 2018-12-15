@@ -12,8 +12,9 @@ def parse_len(length):
 def parse_search_text(message):
     time = message['w_from'][:5]
     place = '<b>' + message['name'] + '</b>\n' + \
-            '👌🏻' + message['place'] + '\n' \
-                                        '🚖 ' + message['address'] + '\n' \
+            '<a href="{}">'.format('https://www.google.com/maps/place/' + message['address']) + message[
+                'place'] + '</a>\n' + \
+            '🚖 ' + message['address'] + '\n' \
                                          '🕒 Начинается в ' + time + '\n' + \
             '📞' + str(message['phone']) + '\n' + message['text'] + '\n'
     if message.get('length', None) != None:
