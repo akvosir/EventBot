@@ -9,14 +9,12 @@ from telegram.error import TimedOut, NetworkError, RetryAfter
 from bot_app.configs.config import TOKEN
 from bot_app.logic import thread_store
 from bot_app.logic.commands import print_command, print_off_location
-from bot_app.logic.logic import send_category
+from bot_app.logic.logic import send_category, send_location, sorry_message
 
 app = Flask(__name__)
 app.config.from_object('bot_app.configs.config')
 bot = telegram.Bot(TOKEN)
 
-
-# ddd
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -31,15 +29,14 @@ def index():
             elif 'edited_message' in r.keys(): # wtf
                 print('OK')
             elif 'location' in r['message'].keys(): # if location
-                chat_id = r['message']['chat']['id']
-                bot.sendSticker(chat_id, 'CAADAgADmgADBiTKB2XXWjd_6tUOAg')
-                bot.sendMessage(chat_id, 'А вы знаете как закрыть сессию на АУТСе!', parse_mode='HTML', disable_web_page_preview=True, timeout=40)
-            elif 'text' in r['message']: # text case
+                chat_id = r['message']['chat']['id']  # type: object
+                latitude = r['message']['location']['latitude']
+                longitude = r['message']['location']['longitude']
+                send_location(chat_id, latitude, longitude)
+            elif "text" in r['message']:
                 chat_id = r['message']['chat']['id']
                 if print_command(chat_id, r['message']['text']):
-                    bot.sendSticker(chat_id, 'CAADAgADmgADBiTKB2XXWjd_6tUOAg')
-                    bot.sendMessage(chat_id, 'А вы знаете как закрыть сессию на АУТСе!', parse_mode='HTML',
-                                    disable_web_page_preview=True, timeout=40)
+                    sorry_message(chat_id)
                 print('OK')
         except (TimedOut, NetworkError, RetryAfter) as e:
             print(e)
@@ -49,6 +46,5 @@ def index():
         return jsonify(r)
     return 'Bot bot bot ohoho!'
 
-# https://api.telegram.org/bot670691033:AAEVXVMJKp2TQKMqLLGpj0VObuOqr2wfGFk/setWebhook?url=https://1bbc8ec1.ngrok.io
 if __name__== '__main__':
     app.run(debug=True, port=5000)

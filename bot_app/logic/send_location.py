@@ -1,7 +1,7 @@
 import requests
 
 
-def location_requests(lat, long):
+def location_request(lat, long):
     url = 'http://127.0.0.1:8000/getByLocation/'
     r = requests.post(url=url,
                       data={
