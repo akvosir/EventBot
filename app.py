@@ -25,9 +25,11 @@ def index():
         try:
             if 'callback_query' in r.keys(): # more button
                 send_category(r['callback_query']['from']['id'], r['callback_query']['data'])
-                print("OLOLO")
-            elif 'edited_message' in r.keys(): # wtf
+            elif 'edited_message' in r.keys():
                 print('OK')
+            elif 'sticker' in r['message'].keys():  # more button
+                chat_id = r['message']['chat']['id']  # type: object
+                bot.sendSticker(chat_id, 'CAADAQADKgADik3WBZk2YrbLfs6qAg')
             elif 'location' in r['message'].keys(): # if location
                 chat_id = r['message']['chat']['id']  # type: object
                 latitude = r['message']['location']['latitude']
@@ -40,8 +42,8 @@ def index():
                 print('OK')
         except (TimedOut, NetworkError, RetryAfter) as e:
             print(e)
-        except Exception as e:
-            print(e)
+        # except Exception as e:
+        #     print(e)
 
         return jsonify(r)
     return 'Bot bot bot ohoho!'

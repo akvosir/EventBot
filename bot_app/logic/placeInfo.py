@@ -14,6 +14,7 @@ def parse_search_text(message):
     place = '<b>' + message['name'] + '</b>\n' + \
             '<a href="{}">'.format('https://www.google.com/maps/place/' + message['address']) + message[
                 'place'] + '</a>\n' + \
+            '📅' + message['expire_date'] + '\n' + \
             '🚖 ' + message['address'] + '\n' \
                                          '🕒 Начинается в ' + time + '\n' + \
             '📞' + str(message['phone']) + '\n' + message['text'] + '\n'
